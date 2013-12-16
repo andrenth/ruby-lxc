@@ -20,7 +20,7 @@ struct container_data {
 static char **
 ruby_to_c_string_array(VALUE rb_arr)
 {
-    int i;
+    unsigned int i;
     size_t len;
     char **arr;
 
