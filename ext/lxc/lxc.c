@@ -389,8 +389,14 @@ container_attach(int argc, VALUE *argv, VALUE self)
         rb_raise(Error, "no block given");
     block = rb_block_proc();
 
-    rb_scan_args(argc, argv, "01", &rb_opts);
-    rb_wait = rb_hash_delete(rb_opts, SYMBOL("wait"));
+    if( rb_scan_args(argc, argv, "01", &rb_opts) == 0 ){
+        rb_wait =  Qtrue;
+    }else if(rb_hash_aref(rb_opts, SYMBOL("wait")) == Qnil){
+        rb_wait =  Qtrue;
+    }else{
+        rb_wait = rb_hash_delete(rb_opts, SYMBOL("wait"));
+    }
+
     opts = lxc_attach_parse_options(rb_opts);
     if (opts == NULL)
         rb_raise(Error, "unable to parse attach options");
